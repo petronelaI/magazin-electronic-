@@ -1,0 +1,51 @@
+{
+  "produse" : [ {
+    "detalii" : "Material: 97% bavlna, 3% elastan",
+    "imagine" : "img/sapca1.jpg",
+    "nume" : "NEW ERA 9FORTY MLB AFRAME LOS ANGELES DODGERS TRUCKER",
+    "pret" : 119,
+    "stoc" : 10
+  }, {
+    "detalii" : "Material: Bumbac - material natural care absoarbe și scurge umezeala, este rezistent la vânt, confortabil la purtare, moale și delicat la atingere.",
+    "imagine" : "img/sapca2.jpg",
+    "nume" : "NEW ERA 9FORTY MLB ESSENTIAL LOS ANGELES DODGERS CAP",
+    "pret" : 102,
+    "stoc" : 9
+  }, {
+    "detalii" : "Material: Bumbac - material natural care absoarbe și scurge umezeala, este rezistent la vânt, confortabil la purtare, moale și delicat la atingere.",
+    "imagine" : "img/sapca3.jpg",
+    "nume" : "NEW ERA 9FORTY MLB LEAGUE ESSENTIAL LOS ANGELES DODGERS",
+    "pret" : 98,
+    "stoc" : 13
+  }, {
+    "detalii" : "Material: 100% Poliester - o fibră sintetică durabilă care se deosebește prin rezistența sporită la caldura și o absorpție excelentă a mirosurilor.",
+    "imagine" : "img/sapca4.jpg",
+    "nume" : "NEW ERA 9FORTY MLB DIAMOND ERA LOS ANGELES DODGERS",
+    "pret" : 118,
+    "stoc" : 7
+  }, {
+    "detalii" : "Material: 100% Poliester - o fibră sintetică durabilă care se deosebește prin rezistența sporită la caldura și o absorpție excelentă a mirosurilor.",
+    "imagine" : "img/sapca5.jpg",
+    "nume" : "NEW ERA 9FORTY MLB LOS ANGELES DODGERS TRUCKER",
+    "pret" : 72,
+    "stoc" : 5
+  }, {
+    "detalii" : "Material: 100% Poliester - o fibră sintetică durabilă care se deosebește prin rezistența sporită la caldura și o absorpție excelentă a mirosurilor.",
+    "imagine" : "img/sapca6.jpg",
+    "nume" : "NEW ERA 9FORTY MLB LOS ANGELES DODGERS CAP",
+    "pret" : 90,
+    "stoc" : 6
+  }, {
+    "detalii" : "Material: 100% Poliester - o fibră sintetică durabilă care se deosebește prin rezistența sporită la caldura și o absorpție excelentă a mirosurilor.",
+    "imagine" : "img/sapca7.jpg",
+    "nume" : "NEW ERA 9FORTY MLB LOS ANGELES DODGERS TRUCKER",
+    "pret" : 120,
+    "stoc" : 7
+  }, {
+    "detalii" : "Material: Bumbac - material natural care absoarbe și scurge umezeala, este rezistent la vânt, confortabil la purtare, moale și delicat la atingere.",
+    "imagine" : "img/sapca8.jpg",
+    "nume" : "NEW ERA 9FORTY MLB LOS ANGELES DODGERS TRUCKER",
+    "pret" : 119,
+    "stoc" : 8
+  } ]
+}

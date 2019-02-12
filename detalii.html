@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			background-color: white;
+			padding: 50px;
+		}
+
+		.contact {
+			background-color:blue;
+			color: white;
+		}
+
+		h1 {
+			font-size: 40px;
+		}
+
+		.imagineProdus {
+			float: left;
+			width: 50%;
+			text-align: center;
+		}
+
+		.imagineProdus > img{
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+		
+		.detaliiProdus {
+			float: right;
+			width: 50%;
+		}
+
+		.header {
+				display: block;
+			}
+
+		.title {
+			display: inline;
+		}
+		
+		.CosCumparaturiButton {
+			margin: 30px 30px 0 0;
+			display: inline;
+			float: right;
+		}
+
+		.bCosCumparaturi {
+			background-color: lightblue;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			width: 200px;
+			height: 50px;
+			cursor: pointer;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			cursor: pointer;
+		}
+
+		.loading{
+			margin: 0 auto;
+			width: 200px;
+			display: block;
+		}
+
+		.information_box{
+			border: 1px solid lightgrey;
+			margin: 100px 20px;
+			padding: 30px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		.adaugaInCos {
+			background-color: lightblue;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			width: 210px;
+			height: 30px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			cursor: pointer;
+		}
+
+		.cantitateProdus {
+			display: block;
+		}
+
+		.stocProdus {
+			display: inline;
+		}
+
+		#snackbar {
+		  visibility: hidden;
+		  min-width: 250px;
+		  margin-left: -125px;
+		  background-color: #333;
+		  color: #fff;
+		  text-align: center;
+		  border-radius: 2px;
+		  padding: 16px;
+		  position: fixed;
+		  z-index: 1;
+		  left: 50%;
+		  bottom: 30px;
+		  font-size: 17px;
+		}
+
+		#snackbar.show {
+		  visibility: visible;
+		  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+		  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+		}
+
+		a:link {
+		  text-decoration: none;
+		}
+
+	</style>
+	<script>
+		var detalii={};
+		var cos=[];
+		var detaliiIndex = location.search.substring(4);
+			function getDetalii(){
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+				   detalii = JSON.parse(this.responseText);
+				   deseneazaTabel();
+				}
+			};
+			xhttp.open("GET", `https://toateprodusele-30c77.firebaseio.com/produse/${detaliiIndex}.json`, true);
+			xhttp.send();
+			}
+
+			function deseneazaTabel(){
+                document.getElementById("imagine").src=detalii.imagine;
+                document.getElementById("nume").innerHTML=detalii.nume;
+                document.getElementById("pret").innerHTML=detalii.pret;
+
+				document.querySelector("#loadingGif").style.display= "none";
+			}
+
+			function snackbarAddToCart(str) {
+				var x = document.getElementById("snackbar");
+				x.innerText=str;
+  				x.className = "show";
+ 				 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+			}
+
+			function getCos() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+					   cos = JSON.parse(this.responseText);
+					   deseneazaTabel();
+					}
+				};
+				xhttp.open("GET", "https://fir-scoala-it.firebaseio.com/cos/.json", true);
+				xhttp.send();
+			}
+			
+			/*function addToCart (t,event){
+				event.preventDefault();
+				var cart = {};
+
+				cart.cantitate = parseInt(document.getElementById("cantitateProdus").value);
+				cart.imagine = detalii.imagine;
+				cart.nume = detalii.nume;
+				cart.stoc = detalii.stoc;
+				cart.pret = detalii.pret;
+
+				var indexEditare = -1;
+				if(indexEditare===-1){
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							getCos();
+						}
+					};
+					xhttp.open("POST", "https://toateprodusele-30c77.firebaseio.com/cos/.json", true);
+					xhttp.send(JSON.stringify(cart));
+				}else{
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							getCos();
+						}
+					};
+					xhttp.open("PUT", `https://toateprodusele-30c77.firebaseio.com/cos/${indexEditare}.json`, true);
+					xhttp.send(JSON.stringify(cart));
+					indexEditare = -1;
+				}
+				deseneazaTabel();
+			}
+		*/
+
+		function ajax(method, url, body){
+            return new Promise(function(resolve, reject){
+                let xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4){
+                        if(this.status === 200) {
+                            resolve(JSON.parse(this.responseText));
+                        }else{
+                            reject(new Error("serverul a dat eroare"));
+                        }
+                    }
+                };
+                xhttp.open(method, url, true);
+                xhttp.send(body);
+            });
+        }
+
+		var url = "https://toateprodusele-30c77.firebaseio.com/"
+		async function adaugaCos(idProdus, cantitateDeAdaugat){
+			var arr = await Promise.all([
+				await ajax("GET", url+"cos/"+idProdus+".json" ),
+				await ajax("GET", url+"produse/"+idProdus+"/stoc.json")
+			]);
+			var cantitateInCos= arr[0];
+			var stoc= arr[1];
+			if(cantitateInCos===null){
+				cantitateInCos=0;
+			}
+			console.log(stoc,cantitateInCos,cantitateDeAdaugat);
+			if(stoc<cantitateDeAdaugat+cantitateInCos){
+				cantitateDeAdaugat= stoc;
+				snackbarAddToCart("Stoc insuficient!")
+				return ;
+			}else{
+				cantitateDeAdaugat = cantitateDeAdaugat+cantitateInCos;
+			}
+			await ajax("PUT", url+"cos/"+idProdus+"/.json", cantitateDeAdaugat);
+			snackbarAddToCart('Produsul dumneavoastra este adaugat in cos!');
+		}
+		
+	</script>
+</head>
+
+<body onload="getDetalii();">
+
+		<div class="header">
+			<h1 class="title"><a href="magazin.html"><img src="img/logo.jpg" style="width: 28%"/></a></h1>
+			<div class="CosCumparaturiButton">
+				<a href="cart.html"/><button class="bCosCumparaturi"><img src="https://cdn0.iconfinder.com/data/icons/shopping-extras-set-1/512/1-512.png" style="width: 20px" />COS CUMPARATURI</button></a>
+			</div>
+		</div>
+		
+		<div class="information_box">
+			<div class ="imagineProdus"><img id="imagine"width="400" src="" align="center"></div>
+			<div class="detaliiProdus">
+				<div id="nume" style="font-style: italic; font-size: 22px;"></div><br>
+				<div id="pret" style="display: inline; font-weight: bold; font-size: 22px;"></div>
+					<span style="display: inline; font-weight: bold; font-size: 22px;">lei</span><br><br>
+				<hr width= "30%" align= "left">
+				<form class="cantitateProdus">
+					Cantitate <input id="cantitateProdus" type="number" name="cantittate" min="1" style ="width: 50px">
+				</form><br>
+				<button class="adaugaInCos" onclick="adaugaCos(detaliiIndex, parseInt(document.getElementById('cantitateProdus').value)); " type="button">ADAUGA IN COS</button>
+				<div id="snackbar"></div>
+			</div>
+			<br style="clear: both">
+		</div>
+		
+		<div id="loadingGif">
+			<img class="loading" src="https://lamontgolfiereclub.com/wp-content/plugins/resamania-api-keys/images/loader-2.gif"/>
+		</div>	
+</body>
+</html>

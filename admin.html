@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			background-color: white;
+			padding: 50px;
+		}
+
+		.contact {
+			background-color:blue;
+			color: white;
+		}
+
+		h1 {
+			font-size: 40px;
+		}
+
+		.imagineProdus {
+			float: left;
+			width: 50%;
+			text-align: center;
+		}
+
+		.imagineProdus > img{
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		.loading{
+			margin: 0 auto;
+			width: 200px;
+			display: block;
+		}
+		
+		.detaliiProdus {
+			float: right;
+			width: 50%;
+		}
+
+		.header {
+				display: block;
+			}
+
+		.title {
+			display: inline;
+		}
+		
+		.CosCumparaturiButton {
+			margin: 30px 30px 0 0;
+			display: inline;
+			float: right;
+		}
+
+		.bCosCumparaturi {
+			background-color: lightblue;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			width: 200px;
+			height: 50px;
+			cursor: pointer;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		.gestionareProduse{
+			border: 1px solid lightgrey;
+			margin: 100px 20px;
+			padding: 30px;
+			display: block;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		h1 {
+			display: table;
+			float: left;
+			width: 70%;
+			margin: 20px;
+ 		}
+			
+		.produsNouButton {
+			display: inline;
+			float: right;
+			width: 20%;
+			margin: 20px;
+		}
+
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			}
+
+		td, th {
+			border: 1px solid #dddddd;
+			text-align: center;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #dddddd;
+		}
+
+		.adaugaProsusNou {
+			background-color: lightblue;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			width: 210px;
+			height: 30px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		a:link {
+		  text-decoration: none;
+		}
+
+	</style>
+	<script>
+		var detalii={};
+		var detaliiIndex = location.search.substring(4);
+			function getDetalii(){
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+				   detalii = JSON.parse(this.responseText);
+				   deseneazaTabel();
+				}
+			};
+			xhttp.open("GET", `https://toateprodusele-30c77.firebaseio.com/produse/${detaliiIndex}.json`, true);
+			xhttp.send();
+			}
+	
+		function deseneazaTabel(){
+			var str = "";
+			for(var i in detalii){
+				if(detalii[i]===null){
+					continue;
+				}
+					str += `
+						  <tr>
+						  	<td>${detalii[i].imagine}</td>
+						    <td>${detalii[i].nume}</td>
+							<td>${detalii[i].pret}</td>
+						    <td><span class="cantitate">${detalii[i].stoc}</span></td>
+							<td><button class="stergeCantitateProdus" onclick="sterge('${i}');">Remove</button></td>
+						  </tr>`;
+           	}
+           	console.log(str);
+			document.querySelector("table tbody").innerHTML=str;
+			document.querySelector("#loadingGif").style.display="none";
+		}
+
+		function sterge(idx){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+					   getDetalii();
+					}
+				};
+				xhttp.open("DELETE", `https://toateprodusele-30c77.firebaseio.com/${idx}.json`, true);
+				xhttp.send();
+		}
+
+	</script>
+
+</head>
+<body onload="getDetalii()">
+
+		<div class="header">
+			<h1 class="title"><a href="magazin.html"><img src="img/logo.jpg" style="width: 30%"/></a></h1>
+			<div class="CosCumparaturiButton">
+				<a href="cart.html"/><button class="bCosCumparaturi"><img src="https://cdn0.iconfinder.com/data/icons/shopping-extras-set-1/512/1-512.png" style="width: 20px" />COS CUMPARATURI</button></a>
+			</div>
+		</div>
+
+		<div class="gestionareProduse">
+			<div>
+				<h1>Gestionare Produse</h1>
+				<div class="produsNouButton"><a href="adaugaProdus.html"><button class="adaugaProsusNou"><img src="img/plus.png" style="width: 20px" />ADAUGA PRODUS NOU</button></a></div>
+			</div>
+			<br style="clear: both">
+			<table id="tabelulCuProduse">
+				<thead>
+				  <tr>
+				    <th>Imagine</th>
+				    <th>Nume</th>
+				    <th>Pret</th>
+				    <th>Cantitate</th>
+				    <th></th>
+				  </tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<div id="loadingGif">
+			<img class="loading" src="https://lamontgolfiereclub.com/wp-content/plugins/resamania-api-keys/images/loader-2.gif"/>
+		</div>	
+
+</body>
+</html>

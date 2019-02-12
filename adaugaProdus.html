@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	   	body,
+	   	html {
+	       	margin: 20px 50px 0 50px;
+	       	padding: 0;
+	       	background-color: white;
+	       	font-size: 22px;
+	   	}
+
+		.header {
+				display: block;
+				margin: 70px -20px;
+			}
+
+		.title {
+			display: inline;
+		}
+		
+		.CosCumparaturiButton {
+			margin: 30px 30px 0 0;
+			display: inline;
+			float: right;
+		}
+
+		.bCosCumparaturi {
+			background-color: lightblue;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			width: 200px;
+			height: 50px;
+			cursor: pointer;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			cursor: pointer;
+		}
+
+	   	a:link {
+		  text-decoration: none;
+		}
+
+	   	h1 {
+	       	display: inline;
+	       	font-size: 50px;
+	   	}
+
+	   	#titluPagina {
+	   		font-size: 45px;
+	   		color: black;
+	   	}
+
+		.saveProdus, .cancelProdus {
+			font-size: 15px;
+			background-color:#bbd3f9;
+			height: 50px;
+			width: 100px;
+			border: none;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+			margin: 40px 0 0 0;
+		}
+
+		#detaliiProdus {
+			border-radius: 5px;
+			background-color: #f2f2f2;
+			padding: 20px;
+		}
+
+		input[type=text], select, #descriereProdus {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+
+		.loading{
+			margin: 0 auto;
+			width: 200px;
+			display: block;
+		}
+
+	</style>
+	<script>
+
+		var produsMagazin=[];
+
+		function getProdus(){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+					   produsMagazin = JSON.parse(this.responseText);
+					   deseneazaTabel();
+					}
+				};
+				xhttp.open("GET", "https://toateprodusele-30c77.firebaseio.com/.json", true);
+				xhttp.send();
+		}
+
+		function adaugaUnProdus(t,event){
+			event.preventDefault();
+			var prod = {};
+			var inputs = t.querySelectorAll("imput[name]");
+			for(var i=0;i<inputs.length;i++){
+				var a = inputs[i].getAttribute("name");
+				var v = inputs[i].value;
+				prod[a] = v;
+			}
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						window.location = "magazin.html";
+					}
+				};
+				xhttp.open("POST", "https://toateprodusele-30c77.firebaseio.com/produse/.json", true);
+				xhttp.send(JSON.stringify(prod));
+			}
+
+		function anuleazaSalvarea () {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+				   window.location = "magazin.html";
+				}
+			};
+			xhttp.open("GET", `https://toateprodusele-30c77.firebaseio.com/produse/.json`, true);
+			xhttp.send();
+		}
+
+		function deseneazaTabel(){
+			document.querySelector("#loadingGif").style.display="none";
+		}	
+			
+	</script>
+</head>
+<body onload="getProdus();">
+
+	<div class="header">
+		<h1 class="title"><a href="magazin.html"><img src="img/logo.jpg" style="width: 28%"/></a></h1>
+		<div class="CosCumparaturiButton">
+			<a href="cart.html"/><button class="bCosCumparaturi"><img src="https://cdn0.iconfinder.com/data/icons/shopping-extras-set-1/512/1-512.png" style="width: 20px" />COS CUMPARATURI</button></a>
+		</div>
+	</div>
+
+	<div class="content" style="border: 1px solid lightgrey; padding: 30px;">
+		<div id="detaliiProdus">
+			<form onsubmit="adaugaUnProdus(this,event);">
+
+				<div class="headerContent">
+					<div class="titluContent">
+						<p style="font-size: 40px; font-weight: bold; float: left;">Adaugare produs</p>
+					</div>
+					<div class="butoaneContent" style="float: right;">
+						<input type="submit" class="saveProdus" style="color: white; font-weight: bold;" value="SAVE"/>
+					    <button onclick="anuleazaSalvarea();"  class="cancelProdus" style="color: white; font-weight: bold;">CANCEL</button>
+					</div>
+				</div>
+				<br clear="both">
+
+			    <label for="imagineProdus">Imagine</label>
+			    <input type="text" id="imagineProdus" name="imagine"/><br>
+
+			    <label for="numeProdus">Nume</label>
+			    <input type="text" id="numeProdus" name="nume"/><br>
+
+			    <label for="descriereProdus">Descriere</label>
+                <input type="text" id="descriereProdus" name="detalii" style="height:100px"/><br>
+
+                <label for="pretprodus">Pret</label>
+			    <input type="text" id="pretprodus" name="pret"><br>
+
+			    <label for="cantitateProdus">Cantitate</label>
+			    <input type="text" id="cantitateProdus" name="stoc"><br>
+			</form>
+		</div>
+	</div>
+
+	<div id="loadingGif">
+		<img class="loading" src="https://lamontgolfiereclub.com/wp-content/plugins/resamania-api-keys/images/loader-2.gif"/>
+	</div>
+
+</body>
+</html>
